@@ -10,10 +10,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.util.regex.Pattern;
+
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.file.FileUtils;
 import me.FurH.Core.internals.InternalManager;
 import me.FurH.Core.number.NumberUtils;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -204,7 +206,8 @@ public class InventoryStack {
      * @return the ItemStack
      * @throws CoreException
      */
-    public static org.bukkit.inventory.ItemStack getItemStackFromString(String string) throws CoreException {
+    @SuppressWarnings("deprecation")
+	public static org.bukkit.inventory.ItemStack getItemStackFromString(String string) throws CoreException {
         org.bukkit.inventory.ItemStack ret = null;
 
         if ("".equals(string) || string.isEmpty()) {

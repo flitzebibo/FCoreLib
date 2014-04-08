@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import me.FurH.Core.number.NumberUtils;
+
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -19,12 +21,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-/**
- *
- * @author FurmigaHumana
- * @deprecated This class has been replaced by InventoryStack
- */
-@Deprecated
+@SuppressWarnings("deprecation")
 public class InvUtils {
 
     public static ItemStack[] toArrayStack(List<String> stacks) {
@@ -48,7 +45,7 @@ public class InvUtils {
     private static Pattern itemStack1 = Pattern.compile("[0-9]+:[0-9]+");
     private static Pattern itemStack2 = Pattern.compile("[a-zA-Z_]+:[0-9]+");
     
-    public static ItemStack stringToItemStack(String string) {
+	public static ItemStack stringToItemStack(String string) {
         ItemStack stack = new ItemStack(Material.AIR);
         
         try {
@@ -94,7 +91,7 @@ public class InvUtils {
 
             boolean meta = false;
             try {
-                String fire = inv[5];
+                String.valueOf(inv[5]);
                 meta = true;
             } catch (Exception ex) {
                 meta = false;

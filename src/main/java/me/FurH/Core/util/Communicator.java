@@ -5,11 +5,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
+
 import me.FurH.Core.CorePlugin;
 import me.FurH.Core.database.CoreSQLDatabase;
-import me.FurH.Core.database.CoreSQLDatabase.type;
+import me.FurH.Core.database.CoreSQLDatabase.Type;
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.time.TimeUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -331,7 +333,7 @@ public class Communicator {
                 bw.write("		LocalHost: " + db.isLocalHost() +l);
                 bw.write("		Queue speed: " + db.queue_speed +l);
                 bw.write("		Queue threads: " + db.queue_threads +l);
-                bw.write("		Database ping: " + (db.type == type.MySQL ? db.ping() : "<0") +l);
+                bw.write("		Database ping: " + (db.type == Type.MySQL ? db.ping() : "<0") +l);
                 bw.write("		Database version: " + (db.version) +l);
                 bw.write("              Is Update Available: " + db.isUpdateAvailable() + l);
             }

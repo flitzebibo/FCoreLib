@@ -1,10 +1,11 @@
 package me.FurH.Core.player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.internals.InternalManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -211,7 +212,8 @@ public class PlayerUtils {
                 && !isUnsafeBlock(block.getRelative(BlockFace.UP).getRelative(BlockFace.UP));
     }
 
-    private static boolean isUnsafeBlock(Block block) {
+    @SuppressWarnings("deprecation")
+	private static boolean isUnsafeBlock(Block block) {
         return block.getTypeId() == 10 || block.getTypeId() == 11 || block.getTypeId() == 51 || block.getTypeId() == 119;
     }
 

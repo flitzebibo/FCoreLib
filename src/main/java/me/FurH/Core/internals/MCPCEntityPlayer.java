@@ -15,7 +15,7 @@ import me.FurH.Core.reflection.ReflectionUtils;
  * @author FurmigaHumana
  * All Rights Reserved unless otherwise explicitly stated.
  */
-@SuppressWarnings({"unchecked", "rawtypes", "deprecation"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class MCPCEntityPlayer extends IEntityPlayer {
 
     @Override

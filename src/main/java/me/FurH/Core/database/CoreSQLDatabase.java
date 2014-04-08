@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 import me.FurH.Core.CorePlugin;
 import me.FurH.Core.cache.CoreSafeCache;
 import me.FurH.Core.exceptions.CoreException;
@@ -21,13 +22,11 @@ import me.FurH.Core.gc.IMemoryMonitor;
 import me.FurH.Core.gc.MemoryMonitor;
 import me.FurH.Core.util.Communicator;
 import me.FurH.Core.util.Utils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-/**
- *
- * @author FurmigaHumana
- */
+@SuppressWarnings("static-access")
 public class CoreSQLDatabase implements IMemoryMonitor {
 
     private CoreSafeCache<String, Integer>      owners  = new CoreSafeCache<String, Integer>(true);
@@ -52,7 +51,7 @@ public class CoreSQLDatabase implements IMemoryMonitor {
     private String  database_pass           = "123";
     public String   prefix                  = "core_";
     private String  engine                  = "SQLite";
-    public type     type                    = null;
+    public Type     type                    = null;
     
     private CorePlugin plugin;
 
@@ -103,7 +102,7 @@ public class CoreSQLDatabase implements IMemoryMonitor {
      *
      * @return
      */
-    public type getDatabaseEngine() {
+    public Type getDatabaseEngine() {
         return this.type;
     }
     
@@ -141,7 +140,7 @@ public class CoreSQLDatabase implements IMemoryMonitor {
      * @return the server ping in milliseconds
      * @throws CoreException
      */
-    public long ping() throws CoreException {
+	public long ping() throws CoreException {
         long ping = 0;
 
         if (type == type.MySQL) {
@@ -157,7 +156,7 @@ public class CoreSQLDatabase implements IMemoryMonitor {
      * @param type the database type
      * @return the id int auto_increment variable
      */
-    public String getAutoVariable(type type) {
+    public String getAutoVariable(Type type) {
         if (type == type.MySQL || type == type.H2) {
             return "id INT AUTO_INCREMENT, PRIMARY KEY (id)";
         } else {
@@ -625,7 +624,7 @@ public class CoreSQLDatabase implements IMemoryMonitor {
      * @param type the database type
      * @throws CoreException
      */
-    public void createTable(Connection connection, String query, type type) throws CoreException {
+    public void createTable(Connection connection, String query, Type type) throws CoreException {
 
         Statement st = null;
 
@@ -1238,5 +1237,5 @@ public class CoreSQLDatabase implements IMemoryMonitor {
         cleanup(true);
     }
     
-    public enum type { MySQL, SQLite, H2; }
+    public static enum Type { MySQL, SQLite, H2; }
 }
