@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import me.FurH.Core.util.Utils;
-import org.bukkit.Bukkit;
 
 /**
  *
@@ -44,12 +44,7 @@ public class MemoryMonitor {
                     }
 
                     Runtime.getRuntime().runFinalization();
-                    System.gc();
-
-                    Bukkit.getPluginManager().callEvent(new GarbageEvent());
-
-                    Runtime.getRuntime().runFinalization();
-                    System.gc();
+                    System.gc();	
 
                     long freed = Math.abs(free - getTotalFree());
                     System.out.println("Memory Released " + Utils.getFormatedBytes(freed));

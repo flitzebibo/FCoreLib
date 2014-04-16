@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.file.FileUtils;
-import me.FurH.Core.internals.InternalManager;
 import me.FurH.Core.number.NumberUtils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -48,7 +48,7 @@ public class InventoryStack {
             baos = new ByteArrayOutputStream();
             dos = new DataOutputStream(baos);
 
-            Class<?> compoundCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTTagCompound");
+            Class<?> compoundCLS = Class.forName("net.minecraft.server."+getServerVersion()+"NBTTagCompound");
             
             Object compound = compoundCLS.newInstance();
             Object craftStack = getCraftVersion(stack);
@@ -71,7 +71,7 @@ public class InventoryStack {
                 save.invoke(craftStack, convert(compound, type));
             }
 
-            Class<?> baseCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTBase");
+            Class<?> baseCLS = Class.forName("net.minecraft.server."+getServerVersion()+"NBTBase");
             Method a = null;
             
             for (Method m : baseCLS.getDeclaredMethods()) {
@@ -112,34 +112,34 @@ public class InventoryStack {
     public static String getStringFromArray(org.bukkit.inventory.ItemStack[] source) throws CoreException {
         String ret = null;
 
-        ByteArrayOutputStream baos = null;
-        DataOutputStream dos = null;
+        ByteArrayOutputStream byteoutput = null;
+        DataOutputStream output = null;
 
         try {
 
-            baos = new ByteArrayOutputStream();
-            dos = new DataOutputStream(baos);
+            byteoutput = new ByteArrayOutputStream();
+            output = new DataOutputStream(byteoutput);
             
-            Class<?> listCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTTagList");
+            Class<?> listCLS = Class.forName("net.minecraft.server." + getServerVersion() + "NBTTagList");
             Object list = listCLS.newInstance();
 
-            Method add = null;
+            Method nbtAdd = null;
             
             for (Method m : listCLS.getDeclaredMethods()) {
                 if (m.getName().equalsIgnoreCase("add")) {
-                    add = m; break;
+                    nbtAdd = m; break;
                 }
             }
             
-            if (add == null) {
+            if (nbtAdd == null) {
                 throw new CoreException("Failed to find NBTTagList add method");
             }
             
-            Class<?> addType = add.getParameterTypes()[0];
+            Class<?> addType = nbtAdd.getParameterTypes()[0];
             
-            Class<?> compoundCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTTagCompound");
+            Class<?> compoundCLS = Class.forName("net.minecraft.server." + getServerVersion() + "NBTTagCompound");
 
-            Method save = null;
+            Method itemstackSave = null;
             
             for (int j1 = 0; j1 < source.length; j1++) {
                 
@@ -148,52 +148,52 @@ public class InventoryStack {
 
                 if (craftStack != null) {
 
-                    if (save == null) {
+                    if (itemstackSave == null) {
                         for (Method m : craftStack.getClass().getMethods()) {
                             if (m.getName().equalsIgnoreCase("save")) {
-                                save = m; break;
+                                itemstackSave = m; break;
                             }
                         }
                     }
 
-                    if (save == null) {
+                    if (itemstackSave == null) {
                         throw new CoreException("Failed to find ItemStack 'save' method!");
                     }
 
-                    Class<?> type = save.getParameterTypes()[0];
-                    save.invoke(craftStack, convert(compound, type));
+                    Class<?> type = itemstackSave.getParameterTypes()[0];
+                    itemstackSave.invoke(craftStack, convert(compound, type));
 
                 }
                 
-                add.invoke(list, convert(compound, addType));
+                nbtAdd.invoke(list, convert(compound, addType));
             }
 
-            Class<?> baseCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTBase");
-            Method a = null;
+            /*Class<?> baseCLS = Class.forName("net.minecraft.server." + getServerVersion() + "NBTBase");
+            Method nbtbase = null;
             
-            for (Method m : baseCLS.getDeclaredMethods()) {
-                if (m.getParameterTypes().length == 2) {
-                    if (m.getParameterTypes()[1] == DataOutput.class) {
-                        a = m; break;
+            for (Method method : baseCLS.getDeclaredMethods()) {
+                if (method.getParameterTypes().length == 2) {
+                    if (method.getParameterTypes()[1] == DataOutput.class) {
+                        nbtbase = method; break;
                     }
                 }
             }
             
-            if (a == null) {
+            if (nbtbase == null) {
                 throw new CoreException("Failed to find NBTBase required method!");
             }
             
-            a.invoke(null, list, dos);
+            nbtbase.invoke(null, list, output);*/
 
-            baos.flush();
-            dos.flush();
+            byteoutput.flush();
+            output.flush();
 
-            ret = new BigInteger(1, baos.toByteArray()).toString(32);
+            ret = new BigInteger(1, byteoutput.toByteArray()).toString(32);
         } catch (Exception ex) {
             throw new CoreException(ex, "Failed to convert the ItemStack Array into a string.");
         } finally {
-            FileUtils.closeQuietly(baos);
-            FileUtils.closeQuietly(dos);
+            FileUtils.closeQuietly(byteoutput);
+            FileUtils.closeQuietly(output);
         }
 
         return encode(ret);
@@ -255,7 +255,7 @@ public class InventoryStack {
             bais = new ByteArrayInputStream(new BigInteger(decode(string), 32).toByteArray());
             dis = new DataInputStream(bais);
 
-            Class<?> baseCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTBase");
+            Class<?> baseCLS = Class.forName("net.minecraft.server."+getServerVersion()+"NBTBase");
             Method a = null;
 
             for (Method m : baseCLS.getDeclaredMethods()) {
@@ -277,10 +277,10 @@ public class InventoryStack {
             
             if (!isEmpty) {
                 
-                Class<?> itemStackCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"ItemStack");
+                Class<?> itemStackCLS = Class.forName("net.minecraft.server."+getServerVersion()+"ItemStack");
                 Object itemStack = itemStackCLS.getMethod("createStack", compound.getClass()).invoke(null, compound);
                                 
-                Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit."+InternalManager.getServerVersion()+"inventory.CraftItemStack");
+                Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit."+getServerVersion()+"inventory.CraftItemStack");
                 Method asCopy = craftItemStack.getMethod("asBukkitCopy", itemStack.getClass());
                 
                 ret = (ItemStack) asCopy.invoke(null, itemStack);
@@ -319,7 +319,7 @@ public class InventoryStack {
             bais = new ByteArrayInputStream(new BigInteger(decode(string), 32).toByteArray());
             dis = new DataInputStream(bais);
             
-            Class<?> baseCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTBase");
+            Class<?> baseCLS = Class.forName("net.minecraft.server."+getServerVersion()+"NBTBase");
             Method a = null;
 
             for (Method m : baseCLS.getDeclaredMethods()) {
@@ -340,11 +340,11 @@ public class InventoryStack {
             int size = ((Integer) nbtlist.getClass().getMethod("size").invoke(nbtlist)).intValue();
             ret = new org.bukkit.inventory.ItemStack[ size ];
             
-            Class<?> compoundCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"NBTTagCompound");
+            Class<?> compoundCLS = Class.forName("net.minecraft.server."+getServerVersion()+"NBTTagCompound");
             Method get = nbtlist.getClass().getMethod("get", Integer.TYPE);
             
-            Class<?> itemStackCLS = Class.forName("net.minecraft.server."+InternalManager.getServerVersion()+"ItemStack");
-            Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit."+InternalManager.getServerVersion()+"inventory.CraftItemStack");
+            Class<?> itemStackCLS = Class.forName("net.minecraft.server."+getServerVersion()+"ItemStack");
+            Class<?> craftItemStack = Class.forName("org.bukkit.craftbukkit."+getServerVersion()+"inventory.CraftItemStack");
             
             for (int i = 0; i < size; i++) {
                 
@@ -382,7 +382,7 @@ public class InventoryStack {
 
         if (stack != null) {
             try {
-                Class<?> cls = Class.forName("org.bukkit.craftbukkit."+InternalManager.getServerVersion()+"inventory.CraftItemStack");
+                Class<?> cls = Class.forName("org.bukkit.craftbukkit."+getServerVersion()+"inventory.CraftItemStack");
                 
                 Method method = cls.getMethod("asNMSCopy", org.bukkit.inventory.ItemStack.class);
                 method.setAccessible(true);
@@ -431,5 +431,11 @@ public class InventoryStack {
             return "";
         }
         return Base64Coder.decodeString(string);
+    }
+    
+    private static String getServerVersion() {
+    	String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		String apiVersion = packageName.substring(packageName.lastIndexOf('.') + 1);
+		return apiVersion + ".";
     }
 }

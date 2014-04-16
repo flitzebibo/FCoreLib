@@ -1,12 +1,5 @@
 package me.FurH.Core.player;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.FurH.Core.exceptions.CoreException;
-import me.FurH.Core.internals.InternalManager;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,27 +11,6 @@ import org.bukkit.entity.Player;
  * @author FurmigaHumana
  */
 public class PlayerUtils {
-
-    /**
-     * Get the players ping average
-     * 
-     * @return the players ping average
-     * @throws CoreException  
-     */
-    public static int getPingAverage() throws CoreException {
-        List<Integer> pings = new ArrayList<Integer>();
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-
-            int ping = getPing(p);
-            
-            if (ping > 0) {
-                pings.add(ping);
-            }
-        }
-
-        return getAverage(pings.toArray(new Integer[] { }));
-    }
     
     /**
      * Get the average number of all the givem values
@@ -64,17 +36,6 @@ public class PlayerUtils {
         }
 
         return (sum / ((double) values.length));
-    }
-
-    /**
-     * Get the player ping
-     * 
-     * @param p the player
-     * @return the player ping
-     * @throws CoreException  
-     */
-    public static int getPing(Player p) throws CoreException {
-        return InternalManager.getEntityPlayer(p, true).ping();
     }
 
     /**

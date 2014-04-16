@@ -5,9 +5,8 @@ import me.FurH.Core.gc.MemoryMonitor;
 import me.FurH.Core.perm.CorePermissions;
 import me.FurH.Core.perm.ICorePermissions;
 import me.FurH.Core.util.Communicator;
-import org.bukkit.Bukkit;
+
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -25,28 +24,13 @@ public abstract class CorePlugin extends JavaPlugin {
     private static MemoryMonitor        monitor;
     public static long start            = 0;
 
-    private boolean registred           = false;
-
-    private boolean outbound            = false;
-    private boolean inbound             = false;
-
     /**
      * Initializes a new CorePlugin Objects
      * 
      * @param tag the default chat tag to be used
      */
     public CorePlugin(String tag) {
-        setup(tag, false, false);
-    }
-    
-    /**
-     * Initializes a new CorePlugin Objects
-     * 
-     * @param tag the default chat tag to be used
-     * @param inbound whatever the plugin should or should not hook the player inboud queue 
-     */
-    public CorePlugin(String tag, boolean inbound) {
-        setup(tag, inbound, false);
+        setup(tag);
     }
 
     /**
@@ -55,12 +39,8 @@ public abstract class CorePlugin extends JavaPlugin {
      * @param tag the default chat tag to be used
      * @param inbound whatever the plugin should or should not hook the player inboud queue
      * @param outbound whatever the plugin should or should not hook the player outbound queue 
-     */
-    public CorePlugin(String tag, boolean inbound, boolean outbound) {
-        setup(tag, inbound, outbound);
-    }
-    
-    private void setup(String tag, boolean inbound, boolean outbound) {
+     */    
+    private void setup(String tag) {
 
         if (handler == null) {
             handler = this;
@@ -83,17 +63,9 @@ public abstract class CorePlugin extends JavaPlugin {
         if (monitor == null) {
             monitor = new MemoryMonitor();
         }
-        
-        this.inbound = inbound;
-        this.outbound = outbound;
 
     }
-    
-    private void registerEvents() {
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new CoreMainListener(inbound, outbound), handler);
-    }
-    
+
     /**
      * Check if the player has an permission
      *
@@ -137,7 +109,6 @@ public abstract class CorePlugin extends JavaPlugin {
      * @param took the total ms count
      */
     public void logEnable(long took) {
-        if (!registred) { registerEvents(); registred = true; }
         log("[TAG] {0} v{1} loaded in {2} ms!", getDescription().getName(), getDescription().getVersion(), took);
     }
     
@@ -145,7 +116,6 @@ public abstract class CorePlugin extends JavaPlugin {
      * Log the default plugin enabled message
      */
     public void logEnable() {
-        if (!registred) { registerEvents(); registred = true; }
         log("[TAG] {0} v{1} loaded!", getDescription().getName(), getDescription().getVersion());
     }
     
@@ -215,11 +185,7 @@ public abstract class CorePlugin extends JavaPlugin {
     public static MemoryMonitor getMemoryMonitor() {
         return monitor;
     }
-    
-    /**
-     *
-     * @return
-     */
+
     public static CorePlugin getHandler() {
         return handler;
     }
