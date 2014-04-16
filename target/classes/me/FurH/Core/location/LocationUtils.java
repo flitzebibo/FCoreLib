@@ -70,9 +70,8 @@ public class LocationUtils {
      * 
      * @param loc the location
      * @return the string representation
-     * @deprecated replaced with locationToString
+     * replaced with locationToString
      */
-    @Deprecated
     public static String locationToString2(Location loc) {
         return locationToString2(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
@@ -85,9 +84,8 @@ public class LocationUtils {
      * @param y the Y coordinate
      * @param z the Z coordinate
      * @return the string representation
-     * @deprecated replaced with locationToString
+     * replaced with locationToString
      */
-    @Deprecated
     public static String locationToString2(String world, int x, int y, int z) {
         return world + ":" + x + ":" + y + ":" + z;
     }
@@ -198,9 +196,8 @@ public class LocationUtils {
      * @param string the location string
      * @return the Location represented by this string
      * @throws CoreException
-     * @deprecated replaced with stringToLocation
+     * replaced with stringToLocation
      */
-    @Deprecated
     public static Location stringToLocation2(String string) throws CoreException {
 
         try {

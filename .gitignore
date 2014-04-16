@@ -214,5 +214,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-.settings/org.eclipse.jdt.core.prefs
-.classpath

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.number.NumberUtils;
 
@@ -153,15 +154,15 @@ public class CollectionUtils {
      * @param object the object to be converted
      * @return the ArrayList
      */
-    public static List<Integer> getIntegerList(Object object) {
+    @SuppressWarnings("unused")
+	public static List<Integer> getIntegerList(Object object) {
         
         List<Integer> list = new ArrayList<Integer>();
         if (object instanceof List) {
             List<?> old = (List<?>) object;
             
-            if (old == null) {
-                return list;
-            }
+            if (old == null)
+            	return list;
             
             if ((object instanceof String) && (object.toString().equals("[]"))) {
                 return list;
@@ -183,15 +184,15 @@ public class CollectionUtils {
      * @param object the object to be converted
      * @return the ArrayList
      */
-    public static List<String> getStringList(Object object) {
+    @SuppressWarnings("unused")
+	public static List<String> getStringList(Object object) {
 
         List<String> list = new ArrayList<String>();
         if (object instanceof List) {
             List<?> old = (List<?>) object;
             
-            if (old == null) {
+            if (old == null)
                 return list;
-            }
             
             if ((object instanceof String) && (object.toString().equals("[]"))) {
                 return list;

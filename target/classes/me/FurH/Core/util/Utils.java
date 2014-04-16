@@ -84,7 +84,7 @@ public class Utils {
             long start = System.currentTimeMillis();
             sock.connect(address, 10000);
             ping = (System.currentTimeMillis() - start);
-
+            sock.close();
         } catch (IOException ex) {
             throw new CoreException(ex, "Error on server ping!");
         }
