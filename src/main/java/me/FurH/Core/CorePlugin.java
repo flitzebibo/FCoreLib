@@ -109,7 +109,7 @@ public abstract class CorePlugin extends JavaPlugin {
      * @param took the total ms count
      */
     public void logEnable(long took) {
-        log("[TAG] {0} v{1} loaded in {2} ms!", getDescription().getName(), getDescription().getVersion(), took);
+        log("[TAG] {0} v{1} loaded in {2} ms! Using edition by kangarko!", getDescription().getName(), getDescription().getVersion(), took);
     }
     
     /**
