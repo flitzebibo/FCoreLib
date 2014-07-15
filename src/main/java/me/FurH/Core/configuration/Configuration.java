@@ -7,12 +7,14 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
+
 import me.FurH.Core.CorePlugin;
 import me.FurH.Core.cache.CoreSafeCache;
 import me.FurH.Core.exceptions.CoreException;
 import me.FurH.Core.file.FileUtils;
 import me.FurH.Core.list.CollectionUtils;
 import me.FurH.Core.util.Communicator;
+
 import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -464,7 +466,8 @@ public class Configuration {
      * @param node the node to get the object
      * @return the Object, or null if not present.
      */
-    public Object get(File file, String node) {
+    @SuppressWarnings("deprecation")
+	public Object get(File file, String node) {
         Communicator com    = plugin.getCommunicator();
         Object backup = null;
 

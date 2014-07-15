@@ -294,7 +294,7 @@ public class Communicator {
 
             int creative = 0;
             int survival = 0;
-            int totalp = Bukkit.getOnlinePlayers().length;
+            int totalp = Bukkit.getOnlinePlayers().size();
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p.getGameMode().equals(GameMode.CREATIVE)) {
