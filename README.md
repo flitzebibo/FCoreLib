@@ -1,5 +1,7 @@
 FCoreLib
 ===============
+InventoryStack.java: Fixed Itemstack/inventory lost error
+
 
 This is a library for CreativeControl.
 Originaly maintained by FurmigaHumana, now by Kangarko.
